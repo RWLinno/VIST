@@ -1,6 +1,8 @@
 # dir
 __pycache__/
 .vscode/
+RAST/backup/
+database/
 checkpoints/
 datasets/
 todo.md
