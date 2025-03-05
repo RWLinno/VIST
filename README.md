@@ -28,9 +28,27 @@ ollama pull nomic-embed-text #
 ## Dataset
 You can download the dataset from [LargeST](https://github.com/liuxu77/LargeST) or [BasicTS](https://github.com/GestaltCogTeam/BasicTS/blob/master/tutorial/getting_started.md). Unzip the files to the datasets/ directory:
 
+## Baselines
+```bash
+python experiments/train.py -c baselines/D2STGNN/SD.py -g 2
+python experiments/train.py -c baselines/STID/SD.py -g 2
+```
+
+## Analysis
+```bash
+cd RAST
+python analyze_retrieval_store.py --file=../database/SD_store_epoch_1.npz
+```
 ## Quick Start
 ```bash
 python experiments/train.py -c examples/regular_config.py -g 0
-
 python experiments/train.py -c RAST/train_SD.py -g 0
+
+nohup python experiments/train.py -c RAST/train_SD.py -g 2 > logs/test.txt &
 ```
+
+## wwz
+1. 跑baselines
+2. 学一下Cursor
+3. 画图
+4. 优化训练速度(难)

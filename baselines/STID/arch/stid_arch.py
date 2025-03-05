@@ -109,7 +109,7 @@ class STID(nn.Module):
 
         # concate all embeddings
         hidden = torch.cat([time_series_emb] + node_emb + tem_emb, dim=1)
-
+        print("hidden.shape",hidden.shape) #[32, 160, 716, 1]
         # encoding
         hidden = self.encoder(hidden)
 

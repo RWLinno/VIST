@@ -35,9 +35,9 @@ MODEL_PARAM = {
     "output_dim": 1,
     "dropout": 0.1,
     # RAST 模型参数
-    "embed_dim": 128,
-    "retrieval_dim": 256, 
-    "encoder_layers": 2,
+    "embed_dim": 16,
+    "retrieval_dim": 24, 
+    "encoder_layers": 1,
     "decoder_layers": 1,
     "n_heads": 8,
     "patch_size": 3, # patching
@@ -52,7 +52,7 @@ MODEL_PARAM = {
     "mlp_ratio": 4.0,
     "attn_dropout": 0.1,
 }
-NUM_EPOCHS = 100
+NUM_EPOCHS = 20
 
 ############################## General Configuration ##############################
 CFG = EasyDict()

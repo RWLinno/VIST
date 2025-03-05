@@ -11,7 +11,9 @@ import torch
 
 import basicts
 
-torch.set_num_threads(4) # aviod high cpu avg usage
+# torch.cuda.empty_cache()  # 清理显存
+
+# torch.set_num_threads(4) # aviod high cpu avg usage
 
 def parse_args():
     parser = ArgumentParser(description='Run time series forecasting model in BasicTS framework!')
