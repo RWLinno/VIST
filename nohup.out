@@ -1,0 +1,413 @@
+2025-02-26 00:52:03,925 - easytorch-launcher - INFO - Launching EasyTorch training.
+2025-02-26 00:52:05,147 - easytorch-env - INFO - Use devices 1.
+2025-02-26 00:52:05,183 - easytorch-launcher - INFO - Initializing runner "<class 'basicts.runners.runner_zoo.simple_tsf_runner.SimpleTimeSeriesForecastingRunner'>"
+2025-02-26 00:52:05,184 - easytorch-env - INFO - Disable TF32 mode
+2025-02-26 00:52:05,184 - easytorch - INFO - Set ckpt save dir: 'checkpoints/RAST/SD_100_12_12/eb2d382d75aa9127b86caba1dd76c350'
+2025-02-26 00:52:05,184 - easytorch - INFO - Building model.
+DESCRIPTION: Train RAST on SD dataset
+GPU_NUM: 1
+RUNNER: <class 'basicts.runners.runner_zoo.simple_tsf_runner.SimpleTimeSeriesForecastingRunner'>
+DATASET:
+  NAME: SD
+  TYPE: <class 'basicts.data.simple_tsf_dataset.TimeSeriesForecastingDataset'>
+  PARAM:
+    dataset_name: SD
+    train_val_test_ratio: [0.6, 0.2, 0.2]
+    input_len: 12
+    output_len: 12
+SCALER:
+  TYPE: <class 'basicts.scaler.z_score_scaler.ZScoreScaler'>
+  PARAM:
+    dataset_name: SD
+    train_ratio: 0.6
+    norm_each_channel: False
+    rescale: True
+MODEL:
+  NAME: RAST
+  ARCH: <class 'RAST.arch.rast_arch.RAST'>
+  PARAM:
+    num_nodes: 716
+    input_len: 12
+    output_len: 12
+    input_dim: 3
+    output_dim: 1
+    dropout: 0.1
+    embed_dim: 64
+    encoder_layers: 2
+    decoder_layers: 1
+    n_heads: 8
+    patch_size: 3
+    stride: 8
+    factor: 3
+    prompt_domain: SD
+    gap: 3
+    llm_model: bert-base-uncased
+    llm_dim: 768
+    top_k: 3
+    mlp_ratio: 4.0
+    attn_dropout: 0.1
+  FORWARD_FEATURES: [0, 1, 2]
+  TARGET_FEATURES: [0]
+METRICS:
+  FUNCS:
+    MAE: masked_mae
+    MAPE: masked_mape
+    RMSE: masked_rmse
+  TARGET: MAE
+  NULL_VAL: 0.0
+TRAIN:
+  NUM_EPOCHS: 100
+  CKPT_SAVE_DIR: checkpoints/RAST/SD_100_12_12
+  LOSS: masked_mae
+  OPTIM:
+    TYPE: Adam
+    PARAM:
+      lr: 0.002
+      weight_decay: 1e-05
+      eps: 1e-08
+  LR_SCHEDULER:
+    TYPE: MultiStepLR
+    PARAM:
+      milestones: [1, 30, 38, 46, 54, 62, 70, 80]
+      gamma: 0.5
+  DATA:
+    BATCH_SIZE: 64
+    SHUFFLE: True
+  CLIP_GRAD_PARAM:
+    max_norm: 5.0
+  CL:
+    WARM_EPOCHS: 30
+    CL_EPOCHS: 3
+    PREDICTION_LENGTH: 12
+VAL:
+  INTERVAL: 1
+  DATA:
+    BATCH_SIZE: 64
+TEST:
+  INTERVAL: 1
+  DATA:
+    BATCH_SIZE: 64
+EVAL:
+  HORIZONS: [3, 6, 12]
+  USE_GPU: True
+
+Database path: ./database
+Pre-trained encoder initialized with 2 layers
+Initializing LLM Encoder with model: bert-base-uncased
+Traceback (most recent call last):
+  File "/home/weilinruan/BasicTS/experiments/train.py", line 28, in <module>
+    main()
+  File "/home/weilinruan/BasicTS/experiments/train.py", line 24, in main
+    basicts.launch_training(args.cfg, args.gpus, node_rank=0)
+  File "/home/weilinruan/BasicTS/basicts/launcher.py", line 130, in launch_training
+    easytorch.launch_training(cfg=cfg, devices=gpus, node_rank=node_rank)
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/easytorch/launcher/launcher.py", line 86, in launch_training
+    train_dist(cfg)
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/easytorch/launcher/launcher.py", line 24, in training_func
+    runner = cfg['RUNNER'](cfg)
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/basicts/runners/runner_zoo/simple_tsf_runner.py", line 19, in __init__
+    super().__init__(cfg)
+  File "/home/weilinruan/BasicTS/basicts/runners/base_tsf_runner.py", line 61, in __init__
+    super().__init__(cfg)
+  File "/home/weilinruan/BasicTS/basicts/runners/base_epoch_runner.py", line 95, in __init__
+    self.model = self.build_model(cfg)
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/basicts/runners/base_epoch_runner.py", line 155, in build_model
+    model = self.define_model(cfg)
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/basicts/runners/base_epoch_runner.py", line 137, in define_model
+    return cfg['MODEL']['ARCH'](**cfg['MODEL']['PARAM'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/RAST/arch/rast_arch.py", line 382, in __init__
+    self._init_llm_encoder()
+  File "/home/weilinruan/BasicTS/RAST/arch/rast_arch.py", line 426, in _init_llm_encoder
+    self.llm_encoder = LLMEncoder(model_name=self.llm_model)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/RAST/arch/rast_arch.py", line 123, in __init__
+    self.model = AutoModel.from_pretrained(model_name)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 563, in from_pretrained
+    model_class = _get_model_class(config, cls._model_mapping)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 388, in _get_model_class
+    supported_models = model_mapping[type(config)]
+                       ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 763, in __getitem__
+    return self._load_attr_from_module(model_type, model_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 777, in _load_attr_from_module
+    return getattribute_from_module(self._modules[module_name], attr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 693, in getattribute_from_module
+    if hasattr(module, attr):
+       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/utils/import_utils.py", line 1805, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/utils/import_utils.py", line 1817, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/bert/modeling_bert.py", line 47, in <module>
+    from ...modeling_utils import PreTrainedModel
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/modeling_utils.py", line 51, in <module>
+    from .loss.loss_utils import LOSS_MAPPING
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/loss/loss_utils.py", line 19, in <module>
+    from .loss_deformable_detr import DeformableDetrForObjectDetectionLoss, DeformableDetrForSegmentationLoss
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/loss/loss_deformable_detr.py", line 4, in <module>
+    from ..image_transforms import center_to_corners_format
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/image_transforms.py", line 22, in <module>
+    from .image_utils import (
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/image_utils.py", line 59, in <module>
+    from torchvision.transforms import InterpolationMode
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torchvision/__init__.py", line 6, in <module>
+    from torchvision import _meta_registrations, datasets, io, models, ops, transforms, utils
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torchvision/models/__init__.py", line 2, in <module>
+    from .convnext import *
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torchvision/models/convnext.py", line 8, in <module>
+    from ..ops.misc import Conv2dNormActivation, Permute
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torchvision/ops/__init__.py", line 1, in <module>
+    from ._register_onnx_ops import _register_custom_op
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torchvision/ops/_register_onnx_ops.py", line 5, in <module>
+    from torch.onnx import symbolic_opset11 as opset11
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torch/onnx/__init__.py", line 10, in <module>
+    from . import (  # usort:skip. Keep the order instead of sorting lexicographically
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torch/onnx/errors.py", line 9, in <module>
+    from torch.onnx._internal import diagnostics
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torch/onnx/_internal/diagnostics/__init__.py", line 1, in <module>
+    from ._diagnostic import (
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torch/onnx/_internal/diagnostics/_diagnostic.py", line 11, in <module>
+    from torch.onnx._internal.diagnostics import infra
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torch/onnx/_internal/diagnostics/infra/__init__.py", line 15, in <module>
+    from .context import Diagnostic, DiagnosticContext, RuntimeErrorWithDiagnostic
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/torch/onnx/_internal/diagnostics/infra/context.py", line 272, in <module>
+    @dataclasses.dataclass
+     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/dataclasses.py", line 1232, in dataclass
+    return wrap(cls)
+           ^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/dataclasses.py", line 1222, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/dataclasses.py", line 1056, in _process_class
+    _cmp_fn('__eq__', '==',
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/dataclasses.py", line 630, in _cmp_fn
+    return _create_fn(name,
+           ^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/dataclasses.py", line 433, in _create_fn
+    exec(txt, globals, ns)
+  File "<string>", line 0, in <module>
+KeyboardInterrupt
+2025-02-26 00:54:08,692 - easytorch-launcher - INFO - Launching EasyTorch training.
+2025-02-26 00:54:09,907 - easytorch-env - INFO - Use devices 1.
+2025-02-26 00:54:09,942 - easytorch-launcher - INFO - Initializing runner "<class 'basicts.runners.runner_zoo.simple_tsf_runner.SimpleTimeSeriesForecastingRunner'>"
+2025-02-26 00:54:09,943 - easytorch-env - INFO - Disable TF32 mode
+2025-02-26 00:54:09,943 - easytorch - INFO - Set ckpt save dir: 'checkpoints/RAST/SD_100_12_12/eb2d382d75aa9127b86caba1dd76c350'
+2025-02-26 00:54:09,943 - easytorch - INFO - Building model.
+DESCRIPTION: Train RAST on SD dataset
+GPU_NUM: 1
+RUNNER: <class 'basicts.runners.runner_zoo.simple_tsf_runner.SimpleTimeSeriesForecastingRunner'>
+DATASET:
+  NAME: SD
+  TYPE: <class 'basicts.data.simple_tsf_dataset.TimeSeriesForecastingDataset'>
+  PARAM:
+    dataset_name: SD
+    train_val_test_ratio: [0.6, 0.2, 0.2]
+    input_len: 12
+    output_len: 12
+SCALER:
+  TYPE: <class 'basicts.scaler.z_score_scaler.ZScoreScaler'>
+  PARAM:
+    dataset_name: SD
+    train_ratio: 0.6
+    norm_each_channel: False
+    rescale: True
+MODEL:
+  NAME: RAST
+  ARCH: <class 'RAST.arch.rast_arch.RAST'>
+  PARAM:
+    num_nodes: 716
+    input_len: 12
+    output_len: 12
+    input_dim: 3
+    output_dim: 1
+    dropout: 0.1
+    embed_dim: 64
+    encoder_layers: 2
+    decoder_layers: 1
+    n_heads: 8
+    patch_size: 3
+    stride: 8
+    factor: 3
+    prompt_domain: SD
+    gap: 3
+    llm_model: bert-base-uncased
+    llm_dim: 768
+    top_k: 3
+    mlp_ratio: 4.0
+    attn_dropout: 0.1
+  FORWARD_FEATURES: [0, 1, 2]
+  TARGET_FEATURES: [0]
+METRICS:
+  FUNCS:
+    MAE: masked_mae
+    MAPE: masked_mape
+    RMSE: masked_rmse
+  TARGET: MAE
+  NULL_VAL: 0.0
+TRAIN:
+  NUM_EPOCHS: 100
+  CKPT_SAVE_DIR: checkpoints/RAST/SD_100_12_12
+  LOSS: masked_mae
+  OPTIM:
+    TYPE: Adam
+    PARAM:
+      lr: 0.002
+      weight_decay: 1e-05
+      eps: 1e-08
+  LR_SCHEDULER:
+    TYPE: MultiStepLR
+    PARAM:
+      milestones: [1, 30, 38, 46, 54, 62, 70, 80]
+      gamma: 0.5
+  DATA:
+    BATCH_SIZE: 64
+    SHUFFLE: True
+  CLIP_GRAD_PARAM:
+    max_norm: 5.0
+  CL:
+    WARM_EPOCHS: 30
+    CL_EPOCHS: 3
+    PREDICTION_LENGTH: 12
+VAL:
+  INTERVAL: 1
+  DATA:
+    BATCH_SIZE: 64
+TEST:
+  INTERVAL: 1
+  DATA:
+    BATCH_SIZE: 64
+EVAL:
+  HORIZONS: [3, 6, 12]
+  USE_GPU: True
+
+Database path: ./database
+Pre-trained encoder initialized with 2 layers
+Initializing LLM Encoder with model: bert-base-uncased
+Traceback (most recent call last):
+  File "/home/weilinruan/BasicTS/experiments/train.py", line 28, in <module>
+    main()
+  File "/home/weilinruan/BasicTS/experiments/train.py", line 24, in main
+    basicts.launch_training(args.cfg, args.gpus, node_rank=0)
+  File "/home/weilinruan/BasicTS/basicts/launcher.py", line 130, in launch_training
+    easytorch.launch_training(cfg=cfg, devices=gpus, node_rank=node_rank)
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/easytorch/launcher/launcher.py", line 86, in launch_training
+    train_dist(cfg)
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/easytorch/launcher/launcher.py", line 24, in training_func
+    runner = cfg['RUNNER'](cfg)
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/basicts/runners/runner_zoo/simple_tsf_runner.py", line 19, in __init__
+    super().__init__(cfg)
+  File "/home/weilinruan/BasicTS/basicts/runners/base_tsf_runner.py", line 61, in __init__
+    super().__init__(cfg)
+  File "/home/weilinruan/BasicTS/basicts/runners/base_epoch_runner.py", line 95, in __init__
+    self.model = self.build_model(cfg)
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/basicts/runners/base_epoch_runner.py", line 155, in build_model
+    model = self.define_model(cfg)
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/basicts/runners/base_epoch_runner.py", line 137, in define_model
+    return cfg['MODEL']['ARCH'](**cfg['MODEL']['PARAM'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/RAST/arch/rast_arch.py", line 382, in __init__
+    self._init_llm_encoder()
+  File "/home/weilinruan/BasicTS/RAST/arch/rast_arch.py", line 426, in _init_llm_encoder
+    self.llm_encoder = LLMEncoder(model_name=self.llm_model)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/BasicTS/RAST/arch/rast_arch.py", line 122, in __init__
+    self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 871, in from_pretrained
+    tokenizer_config = get_tokenizer_config(pretrained_model_name_or_path, **kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 703, in get_tokenizer_config
+    resolved_config_file = cached_file(
+                           ^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/transformers/utils/hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+                    ^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/utils/_deprecation.py", line 101, in inner_f
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1240, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1303, in _hf_hub_download_to_cache_dir
+    (url_to_download, etag, commit_hash, expected_size, head_call_error) = _get_metadata_or_catch_error(
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1751, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1673, in get_hf_file_metadata
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 376, in _request_wrapper
+    response = _request_wrapper(
+               ^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 399, in _request_wrapper
+    response = get_session().request(method=method, url=url, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 66, in send
+    return super().send(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.local/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/http/client.py", line 1395, in getresponse
+    response.begin()
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/http/client.py", line 286, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/socket.py", line 718, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/ssl.py", line 1314, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/weilinruan/.conda/envs/RAST/lib/python3.11/ssl.py", line 1166, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
