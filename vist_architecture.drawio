@@ -1,9 +1,199 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0" version="26.0.16">
-  <diagram name="第 1 页" id="oFMUduMnVoVuy49UjgZ9">
-    <mxGraphModel>
+  <diagram name="ViST Architecture (Full Mode)" id="oFMUduMnVoVuy49UjgZ9">
+    <mxGraphModel dx="1386" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="xfwt_kwrD0F_-GMayA70-1" value="Input Data&#xa;[batch_size, seq_len, num_nodes, input_dim]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="50" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-2" value="Temporal Mapping" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="160" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-3" value="Time Series Embedding → Node Embedding → Temporal Embeddings → Projection&#xa;Output: [batch_size, embed_dim, num_nodes, output_dim]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="345" y="230" width="390" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-4" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-1" target="xfwt_kwrD0F_-GMayA70-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="120" as="sourcePoint" />
+            <mxPoint x="560" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-5" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-2" target="xfwt_kwrD0F_-GMayA70-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="230" as="sourcePoint" />
+            <mxPoint x="560" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-6" value="Visual Processing Path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-7" value="Temporal Processing Path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-8" value="Text Processing Path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="680" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-9" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-3" target="xfwt_kwrD0F_-GMayA70-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="280" as="sourcePoint" />
+            <mxPoint x="560" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-10" value="" style="endArrow=classic;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-3" target="xfwt_kwrD0F_-GMayA70-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="280" as="sourcePoint" />
+            <mxPoint x="560" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-11" value="" style="endArrow=classic;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-3" target="xfwt_kwrD0F_-GMayA70-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="280" as="sourcePoint" />
+            <mxPoint x="560" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-12" value="MultiPerspectiveVisualEncoder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="160" y="420" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-13" value="Temporal Channel → Spatial Channel → Correlation Channel&#xa;Output: [batch_size, seq_len, 3, image_size, image_size]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="490" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-14" value="Visual Output Head" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="160" y="580" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-15" value="Visual Encoder → Global Pooling → GRU → Conditional Control → Node Projection → Graph Convolution&#xa;Output: [batch_size, vis_dim, num_nodes, output_dim]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="650" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-16" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-6" target="xfwt_kwrD0F_-GMayA70-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="440" as="sourcePoint" />
+            <mxPoint x="560" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-17" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-12" target="xfwt_kwrD0F_-GMayA70-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="440" as="sourcePoint" />
+            <mxPoint x="560" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-18" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-13" target="xfwt_kwrD0F_-GMayA70-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="540" as="sourcePoint" />
+            <mxPoint x="560" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-19" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-14" target="xfwt_kwrD0F_-GMayA70-15">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="640" as="sourcePoint" />
+            <mxPoint x="560" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-20" value="Temporal Encoder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="420" y="420" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-21" value="Multiple MLP Layers with Residual Connections&#xa;Output: [batch_size, embed_dim, num_nodes, output_dim]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="420" y="490" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-22" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-7" target="xfwt_kwrD0F_-GMayA70-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="440" as="sourcePoint" />
+            <mxPoint x="560" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-23" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-20" target="xfwt_kwrD0F_-GMayA70-21">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="540" as="sourcePoint" />
+            <mxPoint x="560" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-24" value="Text Encoder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="680" y="420" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-25" value="Generate Prompts → LLM Embedding → Extract Features&#xa;Output: [batch_size, llm_dim]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="490" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-26" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-8" target="xfwt_kwrD0F_-GMayA70-24">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="440" as="sourcePoint" />
+            <mxPoint x="560" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-27" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-24" target="xfwt_kwrD0F_-GMayA70-25">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="540" as="sourcePoint" />
+            <mxPoint x="560" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-28" value="" style="endArrow=classic;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-25" target="xfwt_kwrD0F_-GMayA70-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="640" as="sourcePoint" />
+            <mxPoint x="560" y="590" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="640" y="515" />
+              <mxPoint x="640" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-29" value="Conditional Text Features" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=0;" vertex="1" parent="1">
+          <mxGeometry x="465" y="590" width="155" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-30" value="Cross-Modal Fusion Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="780" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-31" value="Reshape → Dimension Alignment → Bidirectional Cross-Attention → &#xa;Dynamic Importance Estimation → Weighted Fusion → Feed-Forward Network&#xa;Output: [batch_size, embed_dim, num_nodes, output_dim]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="345" y="850" width="390" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-32" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-15" target="xfwt_kwrD0F_-GMayA70-30">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="840" as="sourcePoint" />
+            <mxPoint x="560" y="790" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="280" y="810" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-33" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-21" target="xfwt_kwrD0F_-GMayA70-30">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="640" as="sourcePoint" />
+            <mxPoint x="560" y="590" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="540" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-34" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-30" target="xfwt_kwrD0F_-GMayA70-31">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="940" as="sourcePoint" />
+            <mxPoint x="560" y="890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-35" value="Temporal Output Head" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="400" y="960" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-36" value="Conv2d: embed_dim → horizon&#xa;Output: [batch_size, horizon, num_nodes, output_dim]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1030" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-37" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-31" target="xfwt_kwrD0F_-GMayA70-35">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="940" as="sourcePoint" />
+            <mxPoint x="560" y="890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-38" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-35" target="xfwt_kwrD0F_-GMayA70-36">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="1040" as="sourcePoint" />
+            <mxPoint x="560" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-39" value="Final Prediction&#xa;[batch_size, horizon, num_nodes, output_dim]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="1120" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xfwt_kwrD0F_-GMayA70-40" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xfwt_kwrD0F_-GMayA70-36" target="xfwt_kwrD0F_-GMayA70-39">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="1140" as="sourcePoint" />
+            <mxPoint x="560" y="1090" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
